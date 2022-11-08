@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 
 import book.dao.BookDAO;
 import book.dao.JDBCConnector;
+import book.view.BookInsertView;
 import book.view.BookSearchView;
 import book.vo.BookVO;
 
@@ -21,11 +22,13 @@ public class BookController extends JFrame {
 	ArrayList<BookVO> bookVOList;
 	Connection con;
 	JComboBox<String> combo;
+	BookInsertView insertPan;
 	
 	public BookController() {
 		JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);
 		con = JDBCConnector.getCon();
 		searchPan = new BookSearchView();
+		
 		combo = searchPan.getCombo();
 		dao = new BookDAO();
 		bookVOList = dao.select(con, searchPan.getSearchWord(), combo.getSelectedIndex());
@@ -35,7 +38,15 @@ public class BookController extends JFrame {
 		JButton btnSearch = searchPan.getBtnSearch();
 		btnSearch.addActionListener(btnL);
 		
+//		도서 추가 화면
+		insertPan = new BookInsertView();
+		bookVOList = dao.select(con, searchPan.getSearchWord(), combo.getSelectedIndex());
+		insertPan.setBookVOList(bookVOList);
+		insertPan.initView();
+		
+		
 		tab.add("도서검색", searchPan);
+		tab.add("도서추가", insertPan);
 		
 		add(tab);
 		setTitle("도서관리시스템");

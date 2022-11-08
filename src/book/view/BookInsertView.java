@@ -1,6 +1,7 @@
 package book.view;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -23,9 +24,12 @@ public class BookInsertView extends JPanel {
 	JTextField textSearch;
 	JButton btnSearch;
 	String searchWord = "";
-	JPanel panN;
+	JPanel panN, panS;
 	JComboBox<String> combo;
 	String[] comboStr = {"도서명", "출판사", "저자명"};
+	JLabel[] lbls = new JLabel[header.length];
+	JTextField[] tf = new JTextField[header.length];
+	JButton btnAdd = new JButton("도서추가");
 	
 	public BookInsertView() {
 		setLayout(new BorderLayout());
@@ -38,6 +42,19 @@ public class BookInsertView extends JPanel {
 		panN.add(lbl);
 		panN.add(textSearch);
 		panN.add(btnSearch);		
+		
+		panS = new JPanel(new GridLayout(4, 4));
+		for (int i = 0; i < tf.length; i++) {
+			lbls[i] = new JLabel(header[i]);
+			tf[i] = new JTextField(15);
+			panS.add(lbls[i]);
+			panS.add(tf[i]);
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			panS.add(new JLabel("  "));
+		}
+		panS.add(btnAdd);
 	}
 	
 	public void initView() {
@@ -61,6 +78,7 @@ public class BookInsertView extends JPanel {
 		
 		add("North", panN);
 		add("Center", scroll);
+		add("South", panS);
 	}
 	
 //	DefaultTableModel에 도서정보들을 설정한다.
@@ -96,6 +114,7 @@ public class BookInsertView extends JPanel {
 	public JComboBox<String> getCombo() {
 		return combo;
 	}
+	
 	
 }
 
