@@ -6,7 +6,7 @@ public class BookVO {
 	private String publish;
 	private String author;
 	private int price;
-	private int category;
+	private String categoryName;
 	
 	public int getIsbn() {
 		return isbn;
@@ -38,10 +38,10 @@ public class BookVO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getCategory() {
-		return category;
+	public String getCategoryName() {
+		return categoryName;
 	}
-	public void setCategory(int category) {
-		this.category = category;
+	public void setCategory(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

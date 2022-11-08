@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class JDBCConnector {
 	private static final String driverPath = "com.mysql.cj.jdbc.Driver";
-	private static final String url = "jdbc:mysql://127.0.0.1:3306/db2022_2_2?severTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8";
+	private static final String url = "jdbc:mysql://127.0.0.1:3307/db2022_2_2?severTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8";
 	private static final String id = "root";
 	private static final String pwd = "1234";
 	private static Connection con;

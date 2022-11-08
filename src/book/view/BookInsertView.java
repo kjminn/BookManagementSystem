@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import book.vo.BookVO;
 
-public class BookSearchView extends JPanel {
+public class BookInsertView extends JPanel {
 	JTable table;
 	DefaultTableModel model;
 	ArrayList<BookVO> bookVOList;
@@ -27,7 +27,7 @@ public class BookSearchView extends JPanel {
 	JComboBox<String> combo;
 	String[] comboStr = {"도서명", "출판사", "저자명"};
 	
-	public BookSearchView() {
+	public BookInsertView() {
 		setLayout(new BorderLayout());
 		combo = new JComboBox<>(comboStr);
 		lbl = new JLabel("검색어: ");
