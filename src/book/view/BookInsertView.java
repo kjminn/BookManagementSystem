@@ -20,35 +20,27 @@ public class BookInsertView extends JPanel {
 	DefaultTableModel model;
 	ArrayList<BookVO> bookVOList;
 	String[] header = {"도서번호", "도서명", "출판사", "저자명", "도서가격", "카테고리"};
-	JLabel lbl;
-	JTextField textSearch;
-	JButton btnSearch;
-	String searchWord = "";
-	JPanel panN, panS;
-	JComboBox<String> combo;
-	String[] comboStr = {"도서명", "출판사", "저자명"};
+	String[] categoryNames = {"IT도서", "소설", "비소설", "경제", "사회"};
+	JPanel panS;
+	JComboBox<String> categoryCombo;
 	JLabel[] lbls = new JLabel[header.length];
-	JTextField[] tf = new JTextField[header.length];
+	JTextField[] tf = new JTextField[header.length-1];
 	JButton btnAdd = new JButton("도서추가");
 	
 	public BookInsertView() {
 		setLayout(new BorderLayout());
-		combo = new JComboBox<>(comboStr);
-		lbl = new JLabel("검색어: ");
-		textSearch = new JTextField(20);
-		btnSearch = new JButton("검색");
-		panN = new JPanel();
-		panN.add(combo);
-		panN.add(lbl);
-		panN.add(textSearch);
-		panN.add(btnSearch);		
+		
+		categoryCombo = new JComboBox<String>(categoryNames);
 		
 		panS = new JPanel(new GridLayout(4, 4));
-		for (int i = 0; i < tf.length; i++) {
+		for (int i = 0; i < header.length; i++) {
 			lbls[i] = new JLabel(header[i]);
-			tf[i] = new JTextField(15);
 			panS.add(lbls[i]);
-			panS.add(tf[i]);
+			if(i < header.length-1) {
+				tf[i] = new JTextField();
+				panS.add(tf[i]);
+			}else
+				panS.add(categoryCombo);
 		}
 		
 		for (int i = 0; i < 3; i++) {
@@ -76,7 +68,6 @@ public class BookInsertView extends JPanel {
 		
 		putSearchResult();		
 		
-		add("North", panN);
 		add("Center", scroll);
 		add("South", panS);
 	}
@@ -98,23 +89,33 @@ public class BookInsertView extends JPanel {
 		}
 	}
 	
-	public String getSearchWord() {
-		searchWord = textSearch.getText();
-		return searchWord;
-	}
 	
 	public void setBookVOList(ArrayList<BookVO> bookVOList) {
 		this.bookVOList = bookVOList;
 	}
 
-	public JButton getBtnSearch() {
-		return btnSearch;
-	}
-
-	public JComboBox<String> getCombo() {
-		return combo;
+	
+	public JButton getBtnAdd() {
+		return btnAdd;
 	}
 	
+	public BookVO neededInsertData() {
+		BookVO vo = new BookVO();
+		vo.setIsbn(Integer.parseInt(tf[0].getText()));
+		vo.setName(tf[1].getText());
+		vo.setPublish(tf[2].getText());
+		vo.setAuthor(tf[3].getText());
+		vo.setPrice(Integer.parseInt(tf[4].getText()));
+		vo.setCategory((String)categoryCombo.getSelectedItem());
+		return vo;
+	}
+	
+	public void initInsertData() {
+		for (int i = 0; i < tf.length; i++) {
+			tf[i].setText("");
+		}
+		categoryCombo.setSelectedIndex(0);
+	}
 	
 }
 

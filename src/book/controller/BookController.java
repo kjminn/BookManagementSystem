@@ -40,10 +40,11 @@ public class BookController extends JFrame {
 		
 //		도서 추가 화면
 		insertPan = new BookInsertView();
-		bookVOList = dao.select(con, searchPan.getSearchWord(), combo.getSelectedIndex());
+		bookVOList = dao.select(con, "", 0);
 		insertPan.setBookVOList(bookVOList);
 		insertPan.initView();
-		
+		JButton btnAdd = insertPan.getBtnAdd();
+		btnAdd.addActionListener(btnAddL);		
 		
 		tab.add("도서검색", searchPan);
 		tab.add("도서추가", insertPan);
@@ -62,6 +63,19 @@ public class BookController extends JFrame {
 			bookVOList = dao.select(con, searchPan.getSearchWord(), combo.getSelectedIndex());
 			searchPan.setBookVOList(bookVOList);
 			searchPan.putSearchResult();
+		}
+	};
+	
+	ActionListener btnAddL = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			BookVO vo = insertPan.neededInsertData();
+			dao.insert(con, vo);
+			bookVOList = dao.select(con, searchPan.getSearchWord(), combo.getSelectedIndex());
+			insertPan.setBookVOList(bookVOList);
+			insertPan.putSearchResult();
+			insertPan.initInsertData();
 		}
 	};
 	
