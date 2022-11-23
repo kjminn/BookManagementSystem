@@ -29,9 +29,11 @@ public class BookController extends JFrame {
 	BookInsertView insertPan;
 	BookUpdateView updatePan;
 	JTable table;
+	static final int YES = 0;
+	JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);
 	
 	public BookController() {
-		JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);
+		
 		searchPan = new BookSearchView();
 		
 		combo = searchPan.getCombo();
@@ -63,7 +65,9 @@ public class BookController extends JFrame {
 		
 		tab.add("도서검색", searchPan);
 		tab.add("도서추가", insertPan);
-		tab.add("도서수정", updatePan);
+		tab.add("도서수정 및 삭제", updatePan);
+		
+		tab.addMouseListener(tabL);
 		
 		add(tab);
 		setTitle("도서관리시스템");
@@ -76,7 +80,7 @@ public class BookController extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			if(e.getClickCount() == 2) {
 				int result = JOptionPane.showConfirmDialog(BookController.this, "정말로 삭제하시겠습니까?", "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if(result == 0) {//예: 0, 아니오:1
+				if(result == YES) {//예: 0, 아니오:1
 					BookVO vo = updatePan.neededUpdateData();
 					dao.delete(vo);
 					bookVOList = dao.select("", 0);
@@ -125,6 +129,25 @@ public class BookController extends JFrame {
 			bookVOList = dao.select("", 0);
 			updatePan.setBookVOList(bookVOList);
 			updatePan.putSearchResult();
+		}
+	};
+	
+	MouseAdapter tabL = new MouseAdapter() {
+		public void mouseClicked(MouseEvent e) {
+			int tabIndex = tab.getSelectedIndex();
+			if(tabIndex == 0) {
+				bookVOList = dao.select("", 0);
+				searchPan.setBookVOList(bookVOList);
+				searchPan.putSearchResult();
+			}else if(tabIndex == 1) {
+				bookVOList = dao.select("", 0);
+				insertPan.setBookVOList(bookVOList);
+				insertPan.putSearchResult();
+			}else {
+				bookVOList = dao.select("", 2);
+				updatePan.setBookVOList(bookVOList);
+				updatePan.putSearchResult();
+			}
 		}
 	};
 	
